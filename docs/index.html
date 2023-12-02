@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+  <head prefix="og: http://ogp.me/ns">
+    <meta charset="utf-8">
+    <title>フリマ管理システム - 京都美山高等学校</title>
+    <meta name="description" content="京都美山高等学校のフリーマーケット用管理システムです．" />
+    <meta property="og:url" content="https://" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="フリマ管理システム - 京都美山高等学校" />
+    <meta property="og:site_name" content="フリマ管理システム - 京都美山高等学校" />
+    <meta property="og:description" content="京都美山高等学校のフリーマーケット用管理システムです．" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="./css/index.css?ver=0.1">
+    <link rel="icon" href="./favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  </head>
+  <!--
+    　　　　　　　　　　　　　　　   ／￣￣￣￣＼
+　　　　　　　　　　　　　　　　　 ／　　　　　   ）
+　　　　　　　　　　　　　　　　／　　　　●　  (⌒⌒)
+　　　　　　　　　　　　　　 ／　　　　　　　　　＼ノ          <製作者：2023年度 京都美山高等学校 生徒自治会役員 副会長>
+　　　　　　　　　　　　　／　"""゛゛ヽ　　　 　　　|
+　　　　　　　　　　　 ／　　　　　　　） 　 　 　 　|
+　　　　　　　　　　／　　　　　　ノノ　 　 　 　 　|
+　　　　　　　　 ／　　　　　　ノノ　　　　 　　　/
+　　　　　　　／　　　　　　ノノ　　　　　　　　/
+　　　　　 ／　　　　　　／ 　　　　　　　　／
+　　　　／　彡ミ（_）二二二)) ))二二二)) ))二二二)
+　　 ／　彡
+　／／
+　"゛
+  -->
+  <body>
+    <!-- HEADER START -->
+    <header>
+      <div>
+        <p>京都美山高等学校<br>フリマ管理システム</p>
+      </div>
+    </header>
+    <!-- HEADER EMD -->
+    <!-- MAIN CONTENT START -->
+    <main>
+      <div class="item_header">
+        <div><p>状態</p></div>
+        <div><p>品名</p></div>
+        <div><p>売価</p></div>
+      </div>
+      <div id="item_list"></div>
+    </main>
+    <!-- MAIN CONTENT END -->
+    <!-- FOOTER START -->
+    <footer>
+      <div>
+        <div id="ctrl_1">
+          <button onclick="register_view()">
+            <p>商品登録</p>
+          </button>
+          <button onclick="reset_view()">
+            <p>登録初期化</p>
+          </button>
+        </div>
+        <div id="ctrl_2">
+          <div>
+            <div>
+              <p>商品総数:</p>
+              <p><span id="all_items">N/A</span>点 (<span id="all_amount">N/A</span>円)</p>
+            </div>
+            <div>
+              <p>販売中:</p>
+              <p><span id="onsale_items">N/A</span>点 (<span id="onsale_amount">N/A</span>円)</p>
+            </div>
+            <div>
+              <p>販売済:</p>
+              <p><span id="sold_items">N/A</span>点 (<span id="sold_amount">N/A</span>円)</p>
+            </div>
+          </div>
+          <button onclick="settle_view()">
+            <p>最終売上精算</p>
+          </button>
+        </div>
+      </div>
+    </footer>
+    <!-- FOOTER END -->
+    <!-- REGISTER START -->
+    <div id="register" style="display: none;">
+      <div>
+        <h3>商品登録</h3>
+        <div>
+          <label for="name_register">商品名:</label>
+          <input type="text" name="name" id="name_register" placeholder="商品名を入力" autocomplete="off">
+        </div>
+        <div>
+          <label for="price_register">販売価格:</label>
+          <input type="number" inputmode="numeric" name="price" id="price_register" placeholder="販売価格を入力">&nbsp;円
+        </div>
+        <div>
+          <input type="file" id="file" accept=".csv">
+          <button onclick="setfile()">
+            <p>CSV読込み</p>
+          </button>
+        </div>
+        <div>
+          <button onclick="cancel()">
+            <p>キャンセル</p>
+          </button>
+          <button onclick="register()">
+            <p>商品登録</p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- REGISTER END -->
+    <!-- EDITER START -->
+    <div id="edit" style="display: none;">
+      <div>
+        <h3>商品編集</h3>
+        <div>
+          <label for="name_edit">商品名:</label>
+          <input type="text" name="name" id="name_edit" placeholder="商品名を入力" autocomplete="off" data-id="">
+        </div>
+        <div>
+          <label for="price_edit">販売価格:</label>
+          <input type="number" inputmode="numeric" name="price" id="price_edit" placeholder="販売価格を入力">&nbsp;円
+        </div>
+        <div>          
+          <div><label><input type="radio" name="status" value="onsale" checked> 販売中</label></div>
+          <div><label><input type="radio" name="status" value="sold"> 販売済</label></div>
+        </div>
+        <div>
+          <button onclick="delete_view()">
+            <p>商品削除</p>
+          </button>
+        </div>
+        <div>
+          <button onclick="cancel()">
+            <p>キャンセル</p>
+          </button>
+          <button onclick="save()">
+            <p>保存</p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- EDITER END -->
+    <!-- DELETE START -->
+    <div id="delete" style="display: none;">
+      <div>
+        <h3>以下の商品を削除します</h3>
+        <div>
+          <span>商品名:</span>
+          <span id="item_name"></span>
+        </div>
+        <p class="warn">※この操作は取り消せません</p>
+        <div>
+          <button onclick="cancel('delete')">
+            <p>キャンセル</p>
+          </button>
+          <button onclick="delete_item()">
+            <p>削除</p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- DELETE END -->
+    <!-- RESET START -->
+    <div id="reset" style="display: none;">
+      <div>
+        <h3>登録商品を初期化します</h3>
+        <p class="warn">※この操作は取り消せません</p>
+        <div>
+          <button onclick="cancel()">
+            <p>キャンセル</p>
+          </button>
+          <button onclick="list_clear()">
+            <p>初期化</p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- RESET END -->
+    <!-- RESET START -->
+    <div id="settle" style="display: none;">
+      <div>
+        <h3>最終売上精算</h3>
+        <div>
+          <label for="start_money">初期金:</label>
+          <input type="number" inputmode="numeric" name="start_money" id="start_money" placeholder="開始前の所持金を入力">&nbsp;円
+        </div>
+        <div>
+          <label for="now_money">現在金:</label>
+          <input type="number" inputmode="numeric" name="now_money" id="now_money" placeholder="現在の所持金を入力">&nbsp;円
+        </div>
+        <div>
+          <label for="sga_money">販管費:</label>
+          <input type="number" inputmode="numeric" name="now_money" id="sga_money" placeholder="出店料等を入力">&nbsp;円
+        </div>
+        <div>
+          <span>売上高:</span>
+          <span id="sold_money">0円</span>
+        </div>
+        <div>
+          <span>営業利益:</span>
+          <span id="profit">0円</span>
+        </div>
+        <div>
+          <span>営業外損益:</span>
+          <span id="income">0円</span>
+        </div>
+        <div>
+          <span>経常利益:</span>
+          <span id="result">0円</span>
+        </div>
+        <div>
+          <span>所持金差額:</span>
+          <span id="diff">0円</span>
+        </div>
+        <div>
+          <span>営業利益率:</span>
+          <span id="margin">0.00%</span>
+        </div>
+        <div>
+          <button onclick="downloadcsv()">
+            <p>CSVで保存</p>
+          </button>
+        </div>
+        <div>
+          <button onclick="cancel()">
+            <p>閉じる</p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- RESET END -->
+    <!-- JavaScript Check START -->
+    <div id="javascript_chk" style="display: flex;">
+      <div>
+        <h3>JavaScriptが無効です</h3>
+        <div>
+          <p>JavaScriptを有効にしてから<br>再度アクセスしてください</p>
+        </div>
+      </div>
+    </div>
+    <!-- JavaScript Check END -->
+    <!-- WEB API Check START -->
+    <div id="webapi_chk" style="display: none;">
+      <div>
+        <h3>動作保証環境外です</h3>
+        <div>
+          <p>取扱説明書に記載されている<br>動作保証環境をご確認いただき<br>再度アクセスしてください</p>
+        </div>
+      </div>
+    </div>
+    <!-- WEB API Check END -->
+    <script type="text/javascript" src="./js/syschk.js"></script>
+    <script type="text/javascript" src="./js/sanitizing.js"></script>
+    <script type="text/javascript" src="./js/encoding.js"></script>
+    <script type="text/javascript" src="./js/info.js"></script>
+    <script type="text/javascript" src="./js/edit.js"></script>
+    <script type="text/javascript" src="./js/items.js"></script>
+    <script type="text/javascript" src="./js/settle.js"></script>
+    <script type="text/javascript" src="./js/button.js"></script>
+    <script type="text/javascript" src="./js/resizer.js"></script>
+    <script type="text/javascript" src="./js/localstrage.js"></script>
+    <script type="text/javascript" src="./js/itemid.js"></script>
+    <script type="text/javascript" src="./js/register.js"></script>
+    <script type="text/javascript" src="./js/csv.js"></script>
+  </body>
+</html>

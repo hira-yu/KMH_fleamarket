@@ -1,0 +1,2 @@
+document.querySelector("body > footer").style.height = document.querySelector("body > footer > div").clientHeight + "px";
+document.querySelector("body > main").style.height = document.querySelector("body").clientHeight * .9 - document.querySelector("body > footer").clientHeight + "px";
