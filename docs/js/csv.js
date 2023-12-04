@@ -61,14 +61,19 @@ $("#file").change(function() {
             type: 'string',
         });
 
-        let item_datas = unicodeString.split(/\r\n/);
-
-        if (item_datas[0] != "状態,品名,売価,内部管理ID") {
-            document.querySelector("#register > div > div:nth-child(4)").insertAdjacentHTML('afterend', '<p class="err">読み込みエラー (299)</p>'); 
-            return;
+        item_datas = unicodeString.split(/\r\n/);
+        console.log(item_datas[0].charCodeAt(0));
+        item_datas[0] = item_datas[0].charCodeAt(0) === 0xFEFF ? item_datas[0].slice(1) : item_datas[0];
+        
+        if (item_datas[0] != "状態,品名,売価") {
+            if (item_datas[0] != "状態,品名,売価,内部管理ID") {
+                document.querySelector("#register > div > div:nth-child(4)").insertAdjacentHTML('afterend', '<p class="err">読み込みエラー (299)</p>'); 
+                return;
+            }
         }
 
         item_datas.shift();
+        console.log(item_datas);
         item_datas.pop();
 
         console.log(item_datas.length);
@@ -80,11 +85,13 @@ $("#file").change(function() {
 
         for (let item of item_datas) {
             item = item.split(/, |,/);
-
-            if (item.length != 4) {
-                code += 1;
-                document.querySelector("#register > div > div:nth-child(4)").insertAdjacentHTML('afterend', `<p class="err">読み込みエラー (${code})</p>`); 
-                return;
+            
+            if (item.length != 3) {
+                if (item.length != 4) {
+                    code += 1;
+                    document.querySelector("#register > div > div:nth-child(4)").insertAdjacentHTML('afterend', `<p class="err">読み込みエラー (${code})</p>`); 
+                    return;
+                }
             }
             
             item[1] = sanitize(item[1]);
