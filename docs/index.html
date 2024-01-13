@@ -80,7 +80,7 @@
           </button>
         </div>
         <div id="faq">
-          <a href="https://hira-yu.github.io/KMH_fleamarket/pdf/manual_v1_0.pdf" target="_blank" rel="noopener noreferrer">
+          <a href="https://hira-yu.github.io/KMH_fleamarket/pdf/manual_v1_1.pdf" target="_blank" rel="noopener noreferrer">
             <div>？</div>
           </a>
         </div>
@@ -184,7 +184,7 @@
       </div>
     </div>
     <!-- RESET END -->
-    <!-- RESET START -->
+    <!-- SETTLE START -->
     <div id="settle" style="display: none;">
       <div>
         <h3>最終売上精算</h3>
@@ -196,7 +196,7 @@
           <label for="now_money">現在金:</label>
           <input type="number" inputmode="numeric" name="now_money" id="now_money" placeholder="現在の所持金を入力">&nbsp;円
         </div>
-        <div>
+        <div id="sga_money_box">
           <label for="sga_money">販管費:</label>
           <input type="number" inputmode="numeric" name="now_money" id="sga_money" placeholder="出店料等を入力">&nbsp;円
         </div>
@@ -204,15 +204,15 @@
           <span>売上高:</span>
           <span id="sold_money">0円</span>
         </div>
-        <div>
+        <div id="profit_box">
           <span>営業利益:</span>
           <span id="profit">0円</span>
         </div>
-        <div>
+        <div id="income_box">
           <span>営業外損益:</span>
           <span id="income">0円</span>
         </div>
-        <div>
+        <div id="result_box">
           <span>経常利益:</span>
           <span id="result">0円</span>
         </div>
@@ -220,9 +220,13 @@
           <span>所持金差額:</span>
           <span id="diff">0円</span>
         </div>
-        <div>
+        <div id="margin_box">
           <span>営業利益率:</span>
           <span id="margin">0.00%</span>
+        </div>
+        <div>
+          <input type="checkbox" name="detail_opt" id="detail_opt">
+          <label for="detail_opt">より詳細な情報を表示</label>
         </div>
         <div>
           <button onclick="downloadcsv()">
@@ -236,7 +240,7 @@
         </div>
       </div>
     </div>
-    <!-- RESET END -->
+    <!-- SETTLE END -->
     <!-- JavaScript Check START -->
     <div id="javascript_chk" style="display: flex;">
       <div>

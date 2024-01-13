@@ -1,4 +1,25 @@
+function box_disp() {
+  if (document.getElementById("detail_opt").checked) {
+    $("#sga_money_box").show();
+    $("#profit_box").show();
+    $("#income_box").show();
+    $("#result_box").show();
+    $("#margin_box").show();
+  } else {
+    $("#sga_money_box").hide();
+    $("#profit_box").hide();
+    $("#income_box").hide();
+    $("#result_box").hide();
+    $("#margin_box").hide();
+  }
+}
+
 $(document).on("keyup", "#start_money, #now_money, #sga_money", function () {
+  settle();
+});
+
+$(document).on("change", "#detail_opt", function () {
+  box_disp();
   settle();
 });
 
@@ -18,13 +39,18 @@ function settle() {
   let _diff = 0;
   let diff = 0;
   let margin = 0;
+  let check = document.getElementById("detail_opt").checked;
   
+  box_disp();
+
   if (start_money != '' && now_money != '' && sga_money != '') {
     _profit = Number(sold_money) - Number(sga_money);
     _income = Number(now_money) - Number(start_money) - Number(sold_money); 
     _result = Number(_profit) + Number(_income);
     _diff = Number(now_money) - Number(start_money);
     margin = (_profit / sold_money * 100).toFixed(2);
+  } else if (start_money != '' && now_money != '' && sga_money == '' && !check) {
+    _diff = Number(now_money) - Number(start_money);
   }
   
   if (_profit < 0) {
@@ -57,3 +83,4 @@ function settle() {
   $('#diff').text(diff + "円");
   $('#margin').text(margin + "%");
 }
+
