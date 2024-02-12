@@ -11,7 +11,7 @@
     <meta property="og:description" content="京都美山高等学校のフリーマーケット用管理システムです．" />
     <meta name="twitter:card" content="summary_large_image">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="./css/index.css?ver=0.2">
+    <link rel="stylesheet" href="./css/index.css?ver=0.3">
     <link rel="icon" href="./favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   </head>
@@ -19,7 +19,7 @@
     　　　　　　　　　　　　　　　   ／￣￣￣￣＼
 　　　　　　　　　　　　　　　　　 ／　　　　　   ）
 　　　　　　　　　　　　　　　　／　　　　●　  (⌒⌒)
-　　　　　　　　　　　　　　 ／　　　　　　　　　＼ノ          <製作者：2023年度 京都美山高等学校 生徒自治会役員 副会長>
+　　　　　　　　　　　　　　 ／　　　　　　　　　＼ノ          <製作者：2023年度 京都美山高等学校 生徒会 副会長>
 　　　　　　　　　　　　　／　"""゛゛ヽ　　　 　　　|
 　　　　　　　　　　　 ／　　　　　　　） 　 　 　 　|
 　　　　　　　　　　／　　　　　　ノノ　 　 　 　 　|
@@ -30,6 +30,8 @@
 　　 ／　彡
 　／／
 　"゛
+
+  github repository : https://github.com/hira-yu/KMH_fleamarket
   -->
   <body>
     <!-- HEADER START -->
@@ -42,8 +44,9 @@
     <!-- MAIN CONTENT START -->
     <main>
       <div class="item_header">
+        <div><p>No.</p></div>
         <div><p>状態</p></div>
-        <div><p>品名</p></div>
+        <div><p>商品名</p></div>
         <div><p>売価</p></div>
       </div>
       <div id="item_list"></div>
@@ -67,7 +70,7 @@
               <p><span id="all_items">N/A</span>点 (<span id="all_amount">N/A</span>円)</p>
             </div>
             <div>
-              <p>販売中:</p>
+              <p>販売中:</p> 
               <p><span id="onsale_items">N/A</span>点 (<span id="onsale_amount">N/A</span>円)</p>
             </div>
             <div>
@@ -79,189 +82,367 @@
             <p>最終売上精算</p>
           </button>
         </div>
+        <div id="set">
+          <button onclick="setting_view()">
+            <div><img src="./img/setting_icon.png"></div>
+          </button>
+        </div>
         <div id="faq">
-          <a href="https://hira-yu.github.io/KMH_fleamarket/pdf/manual_v1_1.pdf" target="_blank" rel="noopener noreferrer">
+          <button onclick="help_view()">
             <div>？</div>
-          </a>
+          </button>
         </div>
       </div>
     </footer>
     <!-- FOOTER END -->
     <!-- REGISTER START -->
-    <div id="register" style="display: none;">
-      <div>
+    <div id="register" class="popup_frame" style="display: none;">
+      <div class="popup_main">
         <h3>商品登録</h3>
-        <div>
+        <div class="obj_between">
+          <label for="number_register">管理No.</label>
+          <input type="number" inputmode="numeric" name="number" id="number_register" placeholder="管理Noを入力" list="unused_number_register" oninput="input_check(1)">
+          <span></span>
+          <datalist id="unused_number_register"></datalist>
+        </div>
+        <div class="obj_between">
           <label for="name_register">商品名:</label>
-          <input type="text" name="name" id="name_register" placeholder="商品名を入力" autocomplete="off">
+          <input type="text" name="name" id="name_register" placeholder="商品名を入力" autocomplete="off" onblur="input_check(2)" oninput="input_check(2)">
+          <span></span>
         </div>
-        <div>
+        <div class="obj_between">
           <label for="price_register">販売価格:</label>
-          <input type="number" inputmode="numeric" name="price" id="price_register" placeholder="販売価格を入力">&nbsp;円
-        </div>
-        <div>
-          <input type="file" id="file" accept=".csv">
-          <button onclick="setfile()">
-            <p>CSV読込み</p>
+          <input type="number" inputmode="numeric" name="price" id="price_register" placeholder="販売価格を入力" onblur="input_check(3)" oninput="input_check(3)">&nbsp;円
+          <span></span>
+        </div class="obj_between">
+        <div class="obj_center">
+          <input class="hide" type="file" id="file" accept=".csv">
+          <button class="green" onclick="setfile()">
+            <p class="btn_str white">CSV読込み</p>
           </button>
         </div>
-        <div>
-          <button onclick="cancel()">
-            <p>キャンセル</p>
+        <div class="obj_center">
+          <button class="multi" onclick="cancel()">
+            <p class="btn_str">キャンセル</p>
           </button>
-          <button onclick="register()">
-            <p>商品登録</p>
+          <button class="green" onclick="register()">
+            <p class="btn_str white">商品登録</p>
           </button>
         </div>
       </div>
     </div>
     <!-- REGISTER END -->
     <!-- EDITER START -->
-    <div id="edit" style="display: none;">
-      <div>
+    <div id="edit" class="popup_frame" style="display: none;">
+      <div class="popup_main">
         <h3>商品編集</h3>
-        <div>
+        <div class="obj_between">
+          <label for="number_edit">管理No.</label>
+          <input type="number" inputmode="numeric" name="number" id="number_edit" placeholder="管理Noを入力" list="unused_number_edit" oninput="input_check(4)">
+          <span></span>
+          <datalist id="unused_number_edit"></datalist>
+        </div>
+        <div class="obj_between">
           <label for="name_edit">商品名:</label>
-          <input type="text" name="name" id="name_edit" placeholder="商品名を入力" autocomplete="off" data-id="">
+          <input type="text" name="name" id="name_edit" placeholder="商品名を入力" autocomplete="off" data-id="" onblur="input_check(5)" oninput="input_check(5)">
+          <span></span>
         </div>
-        <div>
+        <div class="obj_between">
           <label for="price_edit">販売価格:</label>
-          <input type="number" inputmode="numeric" name="price" id="price_edit" placeholder="販売価格を入力">&nbsp;円
+          <input type="number" inputmode="numeric" name="price" id="price_edit" placeholder="販売価格を入力" onblur="input_check(6)" oninput="input_check(6)">&nbsp;円
+          <span></span>
         </div>
-        <div>          
-          <div><label><input type="radio" name="status" value="onsale" checked> 販売中</label></div>
+        <div class="obj_center">          
+          <div class="multi"><label><input type="radio" name="status" value="onsale" checked> 販売中</label></div>
           <div><label><input type="radio" name="status" value="sold"> 販売済</label></div>
         </div>
-        <div>
-          <button onclick="delete_view()">
-            <p>商品削除</p>
+        <div class="obj_center">
+          <button class="red" onclick="delete_view()">
+            <p class="btn_str white">商品削除</p>
           </button>
         </div>
-        <div>
-          <button onclick="cancel()">
-            <p>キャンセル</p>
+        <div class="obj_center">
+          <button class="multi" onclick="cancel()">
+            <p class="btn_str">キャンセル</p>
           </button>
-          <button onclick="save()">
-            <p>保存</p>
+          <button class="green" onclick="save()">
+            <p class="btn_str white">保存</p>
           </button>
         </div>
       </div>
     </div>
     <!-- EDITER END -->
     <!-- DELETE START -->
-    <div id="delete" style="display: none;">
-      <div>
+    <div id="delete" class="popup_frame" style="display: none;">
+      <div class="popup_main">
         <h3>以下の商品を削除します</h3>
-        <div>
+        <div class="obj_between">
+          <span>管理No.</span>
+          <span id="item_number"></span>
+        </div>
+        <div class="obj_between">
           <span>商品名:</span>
           <span id="item_name"></span>
         </div>
         <p class="warn">※この操作は取り消せません</p>
-        <div>
-          <button onclick="cancel('delete')">
-            <p>キャンセル</p>
+        <div class="obj_center">
+          <button class="multi" onclick="cancel('delete')">
+            <p class="btn_str">キャンセル</p>
           </button>
-          <button onclick="delete_item()">
-            <p>削除</p>
+          <button class="red" onclick="delete_item()">
+            <p class="btn_str white">削除</p>
           </button>
         </div>
       </div>
     </div>
     <!-- DELETE END -->
     <!-- RESET START -->
-    <div id="reset" style="display: none;">
-      <div>
+    <div id="reset" class="popup_frame" style="display: none; z-index: 999;">
+      <div class="popup_main">
         <h3>登録商品を初期化します</h3>
         <p class="warn">※この操作は取り消せません</p>
-        <div>
-          <button onclick="cancel()">
-            <p>キャンセル</p>
+        <div class="obj_center">
+          <button class="multi" onclick="cancel()">
+            <p class="btn_str">キャンセル</p>
           </button>
-          <button onclick="list_clear()">
-            <p>初期化</p>
+          <button class="red" onclick="list_clear()">
+            <p class="btn_str white">初期化</p>
           </button>
         </div>
       </div>
     </div>
     <!-- RESET END -->
     <!-- SETTLE START -->
-    <div id="settle" style="display: none;">
-      <div>
+    <div id="settle" class="popup_frame" style="display: none;">
+      <div class="popup_main">
         <h3>最終売上精算</h3>
-        <div>
+        <div class="obj_between">
           <label for="start_money">初期金:</label>
           <input type="number" inputmode="numeric" name="start_money" id="start_money" placeholder="開始前の所持金を入力">&nbsp;円
         </div>
-        <div>
+        <div class="obj_between">
           <label for="now_money">現在金:</label>
           <input type="number" inputmode="numeric" name="now_money" id="now_money" placeholder="現在の所持金を入力">&nbsp;円
         </div>
-        <div id="sga_money_box">
+        <div class="obj_between hide" id="sga_money_box">
           <label for="sga_money">販管費:</label>
           <input type="number" inputmode="numeric" name="now_money" id="sga_money" placeholder="出店料等を入力">&nbsp;円
         </div>
-        <div>
+        <div class="obj_between">
           <span>売上高:</span>
           <span id="sold_money">0円</span>
         </div>
-        <div id="profit_box">
+        <div class="obj_between hide" id="profit_box">
           <span>営業利益:</span>
           <span id="profit">0円</span>
         </div>
-        <div id="income_box">
+        <div class="obj_between hide" id="income_box">
           <span>営業外損益:</span>
           <span id="income">0円</span>
         </div>
-        <div id="result_box">
+        <div class="obj_between hide" id="result_box">
           <span>経常利益:</span>
           <span id="result">0円</span>
         </div>
-        <div>
+        <div class="obj_between">
           <span>所持金差額:</span>
           <span id="diff">0円</span>
         </div>
-        <div id="margin_box">
+        <div class="obj_between hide" id="margin_box">
           <span>営業利益率:</span>
           <span id="margin">0.00%</span>
         </div>
-        <div>
-          <input type="checkbox" name="detail_opt" id="detail_opt">
-          <label for="detail_opt">より詳細な情報を表示</label>
+        <div class="obj_center">
+          <input class="hide" type="checkbox" name="detail_opt" id="detail_opt">
+          <label class="chkbox" for="detail_opt">より詳細な情報を表示</label>
         </div>
-        <div>
-          <button onclick="downloadcsv()">
-            <p>CSVで保存</p>
+        <div class="obj_center">
+          <button class="green" onclick="downloadcsv()">
+            <p class="btn_str white">CSVで保存</p>
           </button>
         </div>
-        <div>
+        <div class="obj_center">
           <button onclick="cancel()">
-            <p>閉じる</p>
+            <p class="btn_str">閉じる</p>
           </button>
         </div>
       </div>
     </div>
     <!-- SETTLE END -->
-    <!-- JavaScript Check START -->
-    <div id="javascript_chk" style="display: flex;">
-      <div>
-        <h3>JavaScriptが無効です</h3>
+    <!-- SETTING START -->
+    <div id="setting" class="popup_frame" style="display: none;">
+      <div class="popup_main">
+        <h3>設定</h3>
+        <h4>品名関連設定</h4>
+        <div class="obj_between">
+          <input class="hide" type="checkbox" name="full-width-disable_set" id="full-width-disable_set" checked>
+          <label class="chkbox" for="full-width-disable_set">全角英数字を自動で半角に変換する</label>
+        </div>
+        <div class="obj_between">
+          <input class="hide" type="checkbox" name="half-width-kana-disable_set" id="half-width-kana-disable_set" checked>
+          <label class="chkbox" for="half-width-kana-disable_set">半角カナを自動で全角に変換する</label>
+        </div>
+        <div class="obj_between">
+          <input class="hide" type="checkbox" name="full-width-space-disable_set" id="full-width-space-disable_set" checked>
+          <label class="chkbox" for="full-width-space-disable_set">全角スペースを自動で半角に変換する</label>
+        </div>
+        <div class="obj_between">
+          <input class="hide" type="checkbox" name="multiple-space-disable_set" id="multiple-space-disable_set" checked>
+          <label class="chkbox" for="multiple-space-disable_set">連続するスペースを自動で1個にする</label>
+        </div>
+        <div class="obj_center">
+          <button onclick="cancel()">
+            <p class="btn_str">閉じる</p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- SETTING END -->
+    <!-- HELP START -->
+    <div id="help" class="popup_frame" style="display: none;">
+      <div class="popup_main">
+        <h3>ヘルプ</h3>
+        <div class="obj_center">
+          <p>フリマ管理システム v1.5</p>
+        </div>
+        <div class="obj_center">
+          <a href="https://hira-yu.github.io/KMH_fleamarket/pdf/manual.pdf" target="_blank" rel="noopener noreferrer">
+            <div>取扱説明書</div>
+          </a>
+        </div>
+        <div class="obj_center">
+          <a href="#" onclick="version_view()">
+            <div>更新履歴</div>
+          </a>
+        </div>
+        <div class="obj_center">
+          <a href="https://forms.gle/CVyJEt46SLEeaq198" target="_blank" rel="noopener noreferrer">
+            <div>問い合わせ</div>
+          </a>
+        </div>
+        <div class="obj_center">
+          <button onclick="cancel()">
+            <p class="btn_str">閉じる</p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- HELP END -->
+    <!-- VERSION START -->
+    <div id="version" class="popup_frame" style="display: none;">
+      <div class="popup_main">
+        <h3>更新履歴</h3>
         <div>
+          <div>
+            <h4>v1.5</h4>
+            <p>2024/2/12</p>
+          </div>
+          <p>管理Noを追加</p>
+          <p>設定画面を追加</p>
+          <p>ヘルプ画面を追加</p>
+          <p>取扱説明書を改訂</p>
+          <p>1行おきに背景色を変更</p>
+          <p>商品登録、商品変種画面を改善</p>
+          <p>処理速度を大幅に改善 (従来比約20倍)</p>
+        </div>
+        <div>
+          <div>
+            <h4>v1.4</h4>
+            <p>2024/1/13</p>
+          </div>
+          <p>取扱説明書を改訂</p>
+          <p>最終売上清算画面を簡略化</p>
+        </div>
+        <div>
+          <div>
+            <h4>v1.3.1</h4>
+            <p>2023/12/5</p>
+          </div>
+          <p>プログラムを微修正</p>
+        </div>
+        <div>
+          <div>
+            <h4>v1.3</h4>
+            <p>2023/12/4</p>
+          </div>
+          <p>UTF-8をサポート</p>
+        </div>
+        <div>
+          <div>
+            <h4>v1.2</h4>
+            <p>2023/12/3</p>
+          </div>
+          <p>表示を修正</p>
+        </div>
+        <div>
+          <div>
+            <h4>v1.1</h4>
+            <p>2023/12/3</p>
+          </div>
+          <p>取扱説明書を追加</p>
+        </div>
+        <div>
+          <div>
+            <h4>v1.0</h4>
+            <p>2023/12/2</p>
+          </div>
+          <p>初版リリース</p>
+        </div>
+        <div class="obj_center">
+          <button onclick="cancel('version')">
+            <p class="btn_str">閉じる</p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- VERSION END -->
+    <!-- JavaScript Check START -->
+    <div id="javascript_chk" class="popup_frame" style="display: flex;">
+      <div class="popup_main">
+        <h3>JavaScriptが無効です</h3>
+        <div class="obj_center">
           <p>JavaScriptを有効にしてから<br>再度アクセスしてください</p>
         </div>
       </div>
     </div>
     <!-- JavaScript Check END -->
     <!-- WEB API Check START -->
-    <div id="webapi_chk" style="display: none;">
-      <div>
+    <div id="webapi_chk" class="popup_frame" style="display: none;">
+      <div class="popup_main">
         <h3>動作保証環境外です</h3>
-        <div>
+        <div class="obj_center">
           <p>取扱説明書に記載されている<br>動作保証環境をご確認いただき<br>再度アクセスしてください</p>
         </div>
       </div>
     </div>
     <!-- WEB API Check END -->
+    <!-- Compatibility Check START -->
+    <div id="compatibility_chk" class="popup_frame" style="display: none;">
+      <div class="popup_main">
+        <h3></h3>
+        <div></div>
+        <div class="obj_center">
+          <button class="red multi" onclick="reset_view()">
+            <p class="btn_str white">登録初期化</p>
+          </button>
+          
+          <button class="green" onclick="downloadcsv('old')">
+            <p class="btn_str white">CSVで保存</p>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Compatibility Check END -->
+    <!-- Loading START -->
+    <div id="loading" style="display: none;">
+      <div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <!-- Loading END -->
     <script type="text/javascript" src="./js/syschk.js"></script>
+    <script type="text/javascript" src="./js/verchk.js"></script>
     <script type="text/javascript" src="./js/sanitizing.js"></script>
     <script type="text/javascript" src="./js/encoding.js"></script>
     <script type="text/javascript" src="./js/info.js"></script>
@@ -273,6 +454,7 @@
     <script type="text/javascript" src="./js/localstrage.js"></script>
     <script type="text/javascript" src="./js/itemid.js"></script>
     <script type="text/javascript" src="./js/register.js"></script>
+    <script type="text/javascript" src="./js/inputchk.js"></script>
     <script type="text/javascript" src="./js/csv.js"></script>
   </body>
 </html>

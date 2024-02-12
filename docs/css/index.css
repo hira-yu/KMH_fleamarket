@@ -1,3 +1,5 @@
+/* Document
+    ================================================================ */
 html {
     height: 100%;
 }
@@ -8,6 +10,8 @@ body {
     font-family: sans-serif;
 }
 
+/* Header
+    ================================================================ */
 header {
     width: 100%;
     height: 10%;
@@ -31,6 +35,8 @@ header p {
     line-height: 1.2em;
 }
 
+/* Item view
+    ================================================================ */
 .item_header,
 #item_list > .item {
     display: flex;
@@ -43,7 +49,7 @@ header p {
     padding: .5em 0;
 }
 
-#item_list > .item > div:nth-of-type(2) p {
+#item_list > .item > div:nth-of-type(3) p {
     padding: .5em;
     word-break: break-all;
 }
@@ -55,14 +61,19 @@ header p {
 }
 
 .item_header > div:nth-of-type(1) {
-    width: 20%;
+    width: 5%;
+    min-width: 3em;
 }
 
 .item_header > div:nth-of-type(2) {
-    width: 60%;
+    width: 15%;
 }
 
 .item_header > div:nth-of-type(3) {
+    width: 60%;
+}
+
+.item_header > div:nth-of-type(4) {
     width: 20%;
     border-right: none;
 }
@@ -74,26 +85,43 @@ header p {
     scrollbar-width: none;
 }
 
-#item_list::-webkit-scrollbar{
+#item_list::-webkit-scrollbar {
     display: none;
 }
 
+#item_list > .item:nth-of-type(even):not(.sold) {
+    background-color: rgba(167, 205, 0, 0.1);
+}
+
 #item_list > .sold {
+    background-color: #e7e7e7;
+}
+
+#item_list > .sold:nth-of-type(even) {
     background-color: #c7c7c7;
 }
 
 #item_list > .item > div:nth-of-type(1) {
-    width: 20%;
+    width: 5%;
+    min-width: 3em;
 }
 
 #item_list > .item > div:nth-of-type(2) {
+    width: 15%;
+}
+
+#item_list > .item > div:nth-of-type(3) {
     width: 60%;
     text-align: left;
 }
 
-#item_list > .item > div:nth-of-type(3) {
+#item_list > .item > div:nth-of-type(4) {
     width: 20%;
     border-right: none;
+}
+
+#item_list > .item > .number_err {
+    background-image: linear-gradient(135deg, #f00 10px, transparent 0);
 }
 
 .none {
@@ -102,6 +130,8 @@ header p {
     font-weight: bolder;
 }
 
+/* Footer
+    ================================================================ */
 footer > div {
     background-color: #e6e0cb;
 }
@@ -118,6 +148,7 @@ footer > div > #ctrl_1 > button {
     justify-content: center;
     width: 8em;
     height: 3em;
+    cursor: pointer;
     text-align: center;
     background-color: #a7cd00;
     border-radius: .5em;
@@ -133,6 +164,7 @@ footer > div > #ctrl_1 > button > p,
 footer > div > #ctrl_2 > button > p {
     margin: 0;
     color: #fff;
+    cursor: pointer;
     font-size: 1.4em;
     font-weight: bold;
 }
@@ -151,6 +183,7 @@ footer > div > #ctrl_2 > button {
     justify-content: center;
     width: 10em;
     height: 3em;
+    cursor: pointer;
     text-align: center;
     background-color: #a7cd00;
     border-radius: .5em;
@@ -179,11 +212,24 @@ footer > div > #faq {
     right: 10px;
 }
 
-footer > div > #faq > a {
-    text-decoration: none;
+footer > div > #set {
+    position: absolute;
+    bottom: 55px;
+    right: 10px;
 }
 
-footer > div > #faq > a > div {
+footer > div > #faq > button,
+footer > div > #set > button {
+    padding: 0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-color: transparent;
+}
+
+footer > div > #faq > button > div,
+footer > div > #set > button > div {
     position: relative;
     width: 35px;
     height: 35px;
@@ -194,14 +240,21 @@ footer > div > #faq > a > div {
     text-align: center;
     line-height: 35px;
 }
+footer > div > #set > button > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-#edit,
-#reset,
-#delete,
-#settle,
-#register,
-#webapi_chk,
-#javascript_chk {
+footer > div > #set > button > div > img {
+    width: 23px;
+    height: 23px;
+    vertical-align: bottom;
+}
+
+/* Popup
+    ================================================================ */
+.popup_frame {
     position: fixed;
     align-items: center;
     justify-content: center;
@@ -212,61 +265,93 @@ footer > div > #faq > a > div {
     background-color: rgba(0, 0, 0, .5);
 }
 
-#edit > div,
-#reset > div,
-#delete > div,
-#settle > div,
-#register > div,
-#webapi_chk > div,
-#javascript_chk > div {
+.popup_main {
     border-radius: .5em;
     background-color: #fff;
 }
 
-#edit > div > h3,
-#reset > div > h3,
-#delete > div > h3,
-#settle > div > h3,
-#register > div > h3,
-#webapi_chk > div > h3,
-#javascript_chk > div > h3 {
+.popup_main > h3 {
     margin: 1em 0 0 0;
     text-align: center;
     font-size: 1.4em;
     font-weight: bold;
 }
 
-#edit > div > .err,
-#reset > div > .warn,
-#delete > div > .warn,
-#register > div > .err {
+#setting > div > h4 {
+    position: relative;
+    display: inline-block;
+    padding: 0 55px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin-bottom: 0;
+}
+#help > div > div > p,
+#version > div > div > p,
+#version > div > div > div > h4,
+#version > div > div > div > p {
+    margin: 0;
+}
+
+#setting > div > h4::before,
+#setting > div > h4::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    display: inline-block;
+    width: 45px;
+    height: 1px;
+    background-color: black;
+}
+#setting > div > h4::before {
+    left: 0;
+}
+#setting > div > h4::after {
+    right: 0;
+}
+
+.err, .warn {
     margin: 0;
     color: #f00;
     text-align: center;
 }
+.input_err {
+    border-color: red;
+    outline-color: red;
+    background-color: rgba(255, 0, 0, .2);
+}
 
-#edit > div > div,
-#reset > div > div,
-#delete > div > div,
-#settle > div > div,
-#register > div > div,
-#webapi_chk > div > div,
-#javascript_chk > div > div {
+.popup_main > div {
     margin: 1em 2em;
     display: flex;
     align-items: center;
+}
+#edit > div > div:has(span),
+#register > div > div:has(span) {
+    margin: .5em;
+    position: relative;
+    padding: 0 1.5em 1.5em;
+}
+#edit > div > div > span,
+#register > div > div > span {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: small;
+    color: red;
+}
+#version > div > div:not(:last-child) {
+    display: block;
+}
+#version > div > div > div {
+    display: flex;
     justify-content: space-between;
 }
 
-#edit > div > div:nth-of-type(3),
-#edit > div > div:nth-of-type(4),
-#reset > div > div:nth-of-type(1),
-#settle > div > div:nth-of-type(10),
-#settle > div > div:nth-of-type(11),
-#settle > div > div:nth-of-type(12),
-#delete > div > div:nth-of-type(2),
-#register > div > div:nth-of-type(3),
-#register > div > div:nth-of-type(4) {
+.obj_between {
+    justify-content: space-between;
+}
+
+.obj_center {
     justify-content: center;
 }
 
@@ -279,22 +364,18 @@ footer > div > #faq > a > div {
     border: 1px solid #000;
     border-radius: .5em;
 }
-#edit > div > div:nth-of-type(2) > input,
-#register > div > div:nth-of-type(2) > input {
+#edit > div > div:nth-of-type(3) > input,
+#register > div > div:nth-of-type(3) > input {
     width: 10.5em;
 }
 #settle > div > div:nth-of-type(10) > input {
     width: auto;
 }
 
-#edit > div > div:nth-of-type(4) > button,
-#edit > div > div:nth-of-type(5) > button,
-#reset > div > div:nth-of-type(1) > button,
-#delete > div > div:nth-of-type(2) > button,
-#settle > div > div:nth-of-type(11) > button,
-#settle > div > div:nth-of-type(12) > button,
-#register > div > div:nth-of-type(3) > button,
-#register > div > div:nth-of-type(4) > button {
+/* Button
+    ================================================================ */
+.obj_center > button {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -305,68 +386,64 @@ footer > div > #faq > a > div {
     padding: 0;
     border: 1px solid #000;
 }
+#help > div > div > a > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8em;
+    height: 2em;
+    text-align: center;
+    border-radius: .5em;
+    padding: 0;
+    border: 1px solid #000;
+    background-color: #a7cd00;
+}
+#help > div > div > a {
+    margin: 0;
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: none;
+}
 
-#edit > div > div:nth-of-type(5) > button:nth-of-type(2),
-#settle > div > div:nth-of-type(11) > button:nth-of-type(1),
-#register > div > div:nth-of-type(3) > button:nth-of-type(1),
-#register > div > div:nth-of-type(4) > button:nth-of-type(2) {
+.green {
     background-color: #a7cd00;
 }
 
-#edit > div > div:nth-of-type(4) > button:nth-of-type(1),
-#reset > div > div:nth-of-type(1) > button:nth-of-type(2),
-#delete > div > div:nth-of-type(2) > button:nth-of-type(2) {
+.red {
     background-color: #e70000;
 }
 
-#edit > div > div:nth-of-type(3) > div:nth-of-type(1),
-#edit > div > div:nth-of-type(5) > button:nth-of-type(1),
-#reset > div > div:nth-of-type(1) > button:nth-of-type(1),
-#delete > div > div:nth-of-type(2) > button:nth-of-type(1),
-#register > div > div:nth-of-type(4) > button:nth-of-type(1) {
+.multi {
     margin-right: 2em;
 }
 
-#edit > div > div:nth-of-type(4) > button > p,
-#edit > div > div:nth-of-type(5) > button > p,
-#reset > div > div:nth-of-type(1) > button > p,
-#delete > div > div:nth-of-type(2) > button > p,
-#settle > div > div:nth-of-type(11) > button > p,
-#settle > div > div:nth-of-type(12) > button > p,
-#register > div > div:nth-of-type(3) > button > p,
-#register > div > div:nth-of-type(4) > button > p {
+.btn_str {
     margin: 0;
     font-size: 1.2em;
     font-weight: bold;
 }
 
-#edit > div > div:nth-of-type(4) > button:nth-of-type(1) > p,
-#edit > div > div:nth-of-type(5) > button:nth-of-type(2) > p,
-#reset > div > div:nth-of-type(1) > button:nth-of-type(2) > p,
-#delete > div > div:nth-of-type(2) > button:nth-of-type(2) > p,
-#settle > div > div:nth-of-type(11) > button:nth-of-type(1) > p,
-#register > div > div:nth-of-type(3) > button:nth-of-type(1) > p,
-#register > div > div:nth-of-type(4) > button:nth-of-type(2) > p {
+.white {
     color: #fff;
     font-size: 1.4em;
 }
 
-#register > div > div:nth-of-type(3) > input {
+.hide {
     display: none;
 }
 
-#settle > div > div:nth-of-type(10) > input {
-    display: none;
-}
-#settle > div > div:nth-of-type(10) > label {
+/* Check box
+    ================================================================ */
+.chkbox {
     width: auto;
     cursor: pointer;
-    padding: 5px 30px;
+    padding: 5px 0px 5px 30px;
     position: relative;
     display: inline-block;
     box-sizing: border-box;
 }
-#settle > div > div:nth-of-type(10) > label::before {
+.chkbox::before {
     top: 50%;
     left: 5px;
     content: '';
@@ -378,7 +455,7 @@ footer > div > #faq > a > div {
     background: #fff;
     border: 1px solid #231815;
 }
-#settle > div > div:nth-of-type(10) > label::after {
+.chkbox::after {
     top: 50%;
     left: 10px;
     opacity: 0;
@@ -392,14 +469,52 @@ footer > div > #faq > a > div {
     border-right: 3px solid #ed7a9c;
     border-bottom: 3px solid #ed7a9c;
 }
-#settle > div > div:nth-of-type(10) > input:checked + label::after {
+input[type="checkbox"]:checked + label::after {
     opacity: 1;
 }
 
-#sga_money_box,
-#profit_box,
-#income_box,
-#result_box,
-#margin_box {
-    display: none;
+/* Loading view
+    ================================================================ */
+#loading {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 9999;
+}
+
+#loading > div {
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#loading > div > div {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 65px;
+    height: 65px;
+    border: 5px solid #ffffff80;
+    border-radius: 50%;
+}
+
+#loading  > div > div:nth-child(2) {
+    clip-path: polygon(50% 50%, 0 0, 80.00% 0);
+    animation: loading_spin 1s infinite;
+    animation-timing-function: cubic-bezier(0.52, 0.26, 0.44, 0.81);
+    border: 5px solid #ffffff;
+}
+
+@keyframes loading_spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

@@ -7,6 +7,6 @@ if (typeof localStorage != 'undefined' && window.File) {
     } else {
         document.querySelector("#webapi_chk").style.display = 'flex';
     }
-} else {    
+} else {
     document.querySelector("#webapi_chk").style.display = 'flex';
 }

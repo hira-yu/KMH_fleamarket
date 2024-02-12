@@ -3,11 +3,11 @@ function info(onsale, sold) {
     let price_sold = 0;
 
     for (let item of onsale) {
-        price_onsale += Number(item[2].slice(1));
+        price_onsale += Number(item[3].slice(1));
     }
 
     for (let item of sold) {
-        price_sold += Number(item[2].slice(1));
+        price_sold += Number(item[3].slice(1));
     }
 
     $('#all_items').text(onsale.length + sold.length);
