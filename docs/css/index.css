@@ -269,7 +269,7 @@ footer > div > #set > button > div > img {
     border-radius: .5em;
     background-color: #fff;
     max-height: 90%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .popup_main > h3 {
